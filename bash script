@@ -3,7 +3,7 @@
 
 # Create an HTML file with your content
 html_content=$(cat <<EOF
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html>
 <head>
   <title>Student Information</title>
@@ -44,6 +44,10 @@ ssh magidi@13.93.164.165
 # Install NGINX
 sudo apt-get update
 sudo apt-get install -y nginx
+
+# Check if nginx is installed
+sytemctl is-active nginc
+sudo systemctl start nginx
 
 # Create directory and set up basic webpage
 sudo mkdir -p /var/www/html/labs
