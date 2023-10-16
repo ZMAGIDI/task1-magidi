@@ -54,10 +54,48 @@ sudo systemctl enable nginx
 # Task 3: Setting Up MySQL Database
 
 # Install MySQL Server
+sudo apt-get update
 sudo apt-get install -y mysql-server
 
 # Secure MySQL installation
 sudo mysql_secure_installation
+
+# Configure MySQL for Strong Passwords and Remote Access
+
+# Generate a strong password for the root user
+ROOT_PASSWORD=$(openssl rand -base64 12)
+
+# Set a strong password for the root user
+sudo mysql -e "ALTER USER 'root'@'localhost' IDENTIFIED WITH 'mysql_native_password' BY '$ROOT_PASSWORD';"
+
+# Allow remote access to the root user (replace 'your_ip' with your IP address)
+YOUR_IP='your_ip'
+sudo mysql -e "CREATE USER 'root'@'$YOUR_IP' IDENTIFIED BY '$ROOT_PASSWORD';"
+sudo mysql -e "GRANT ALL PRIVILEGES ON . TO 'root'@'$YOUR_IP' WITH GRANT OPTION;"
+sudo mysql -e "FLUSH PRIVILEGES;"
+
+# Configure Firewall Rules for MySQL (default port 3306)
+sudo ufw allow 3306
+
+
+# Enable ufw (Uncomplicated firewall)
+sudo ufw --force enable
+
+# Display the status of UFW
+sudo ufw status
+
+# Display MySQL root password for reference
+echo "MySQL Root Password: $ROOT_PASSWORD"
+
+
+# Accessing MySQL
+mysql -u root -p
+
+# Saving script to a file
+chmod +x setup_mysql.sh
+
+# Run the script on VM after connecting via SSH
+./setup_mysql.sh
 
 # Task 4: Creating Student Table and Data
 
@@ -74,7 +112,7 @@ CREATE TABLE IF NOT EXISTS students (
 );
 INSERT INTO students (name, age, gender, course) VALUES
     ('Magidi Z', 20, 'Male', 'Computer Systems'),
-    ('Karabo', 22, 'Male', 'Computer Systems'),
+    ('Karabo', 21, 'Male', 'Computer Systems'),
     
 FLUSH PRIVILEGES;
 MYSQL_SCRIPT
