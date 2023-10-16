@@ -1,0 +1,43 @@
+#!/bin/bash
+az vm create \
+  --resource-group learn-alda231f-2ef-4315-a62f-01b313064£29 \
+  --name magidi-vm \
+  --public-ip-sku Standard \
+  --image UbuntuLTS \
+  --admin-username magidi \
+  --generate-ssh-keys
+
+# SSH into the VM
+ssh magidi@13.93.164.165
+
+# Install Nginx
+ssh magidi@13.93.164.165 'sudo apt update && sudo apt install nginx -y'
+
+# Create directories and set permissions
+ssh magidi@13.93.164.165 'sudo mkdir -p /var/www/html/labs'
+ssh magidi@13.93.164.165 'sudo chown -R www-data:www-data /var/www/html'
+
+# Create an HTML file with your content
+html_content=$(cat <<EOF
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Student Information</title>
+</head>
+<body>
+  <h1>Student Information Page</h1>
+  <p>
+    Initials: K Matloga; Z Magidi<br>
+    Name: Karabo; Zwivhuya<br>
+    Student No: 221060375; 218460279<br>
+    Course: Electrical Engineering: Computer Systems
+  </p>
+</body>
+</html>
+EOF
+)
+
+echo "$html_content" | ssh magidi@13.93.164.165 'sudo tee /var/www/html/labs/index.html > /dev/null'
+
+# Restart Nginx to apply changes
+ssh magidi@13.93.164.165 'sudo service nginx restart'
