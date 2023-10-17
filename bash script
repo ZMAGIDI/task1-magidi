@@ -125,3 +125,9 @@ mysql -u root -p -e "INSERT INTO students (name, age, gender, course) VALUES
     ('Lenda T', 20, 'Female', 'Mechanical Eng');"
 
 echo "Database 'student_records' and table 'students' created with sample data."
+
+# Saving script in a file
+chmod +x create_student_database.sh
+
+# Run script on Azure VM after connecting via SSh
+./create_student_database.sh
