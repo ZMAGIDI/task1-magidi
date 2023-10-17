@@ -62,7 +62,7 @@ sudo mysql_secure_installation
 
 # Configure MySQL for Strong Passwords and Remote Access
 
-# Allow remote access (replace 'your_password' with your desired password)
+# Allow remote access 
 MYSQL_ROOT_PASSWORD='Magidi26%10%26%Magidi'
 sudo mysql -e "ALTER USER 'root'@'localhost' IDENTIFIED WITH 'mysql_native_password' BY '$MYSQL_ROOT_PASSWORD';"
 
