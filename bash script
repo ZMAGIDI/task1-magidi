@@ -97,24 +97,31 @@ chmod +x setup_mysql.sh
 # Run the script on VM after connecting via SSH
 ./setup_mysql.sh
 
+
 # Task 4: Creating Student Table and Data
 
-# Access MySQL and create database and table
-mysql -u root -p <<MYSQL_SCRIPT
-CREATE DATABASE IF NOT EXISTS student_records;
-USE student_records;
-CREATE TABLE IF NOT EXISTS students (
-    id INT AUTO_INCREMENT PRIMARY KEY,
+
+# Create a MySQL database 
+mysql -u root -p -e "CREATE DATABASE IF NOT EXISTS student_records;"
+
+# Use the "student_records" database
+mysql -u root -p -e "USE student_records;"
+
+# Create a table "students" with attributes
+mysql -u root -p -e "CREATE TABLE IF NOT EXISTS students (
+    student_id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     age INT,
     gender VARCHAR(10),
     course VARCHAR(255)
-);
-INSERT INTO students (name, age, gender, course) VALUES
-    ('Magidi Z', 20, 'Male', 'Computer Systems'),
-    ('Karabo', 21, 'Male', 'Computer Systems'),
-    
-FLUSH PRIVILEGES;
-MYSQL_SCRIPT
+);"
 
-echo "Student database and table created with sample data."
+# Populate the table with sample data
+mysql -u root -p -e "INSERT INTO students (name, age, gender, course) VALUES
+    ('Magidi Z', 20, 'Male', 'Computer Systems'),
+    ('Karabo M', 21, 'Male', 'Computer Systems'),
+    ('Thabiso J', 20, 'Male', 'Industrial Eng'),
+    ('Palesa M', 22, 'Female', 'Chemical Eng'),
+    ('Lenda T', 20, 'Female', 'Mechanical Eng');"
+
+echo "Database 'student_records' and table 'students' created with sample data."
